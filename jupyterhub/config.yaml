@@ -1,0 +1,25 @@
+singleuser:
+  # 기본 이미지 설정
+  image:
+    name: jupyter/datascience-notebook
+    tag: latest
+
+  # 프로필 리스트 설정
+  profileList:
+    - display_name: "CPU 전용 서버"
+      description: "간단한 데이터 분석을 위한 CPU 환경입니다."
+      default: true
+      kubespawner_override:
+        cpu_limit: 2
+        cpu_guarantee: 1
+        mem_limit: "4G"
+        mem_guarantee: "2G"
+
+    - display_name: "GPU 서버 (NVIDIA)"
+      description: "딥러닝 학습을 위한 GPU 가속 환경입니다."
+      kubespawner_override:
+        # GPU 할당 설정
+        extra_resource_limits:
+          nvidia.com/gpu: "1"
+        node_selector:
+          nvidia.com/gpu.product: "Tesla-T4"
